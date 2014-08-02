@@ -1,0 +1,91 @@
+package com.libmis.service.impl;
+
+import java.io.Serializable;
+import java.util.List;
+
+import org.hibernate.search.SearchException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.libmis.dao.BookDAO;
+import com.libmis.dao.CopyDAO;
+import com.libmis.dao.SearchDAO;
+import com.libmis.dao.UserDAO;
+import com.libmis.model.Book;
+import com.libmis.model.Copy;
+import com.libmis.service.BookService;
+
+@Component("bookService")
+public class BookServiceImpl implements BookService{
+	
+	@Autowired
+	private BookDAO bookDAO;
+	@Autowired
+	private CopyDAO copyDAO;
+
+	@Override
+	public void delete(Book book) {
+		book=bookDAO.getById(book.getId());
+		for(Copy copy:book.getCopys()){
+			copyDAO.delete(copy);
+		}
+		bookDAO.delete(book);
+	}
+
+	@Override
+	public Book getById(int id) {
+		return bookDAO.getById(id);
+	}
+
+	@Override
+	public int getSearchResultSize(String query, String... fields) {
+		int size;
+		try {
+			size = bookDAO.getSearchResultSize(query,fields);
+		} catch (SearchException e) {
+			size = bookDAO.getResultSize();
+		}
+		return size;
+	}
+
+	@Override
+	public Serializable save(Book book) {
+		if(bookDAO.getByIsbn(book.getIsbn())!=null)
+			return 0;
+		return bookDAO.save(book);
+	}
+
+	@Override
+	public List<Book> search(String query, int startResult, int maxResult,
+			String... fields) {
+		List<Book> list;
+		try {
+			list = bookDAO.search(query, startResult, maxResult,fields);
+		} catch (SearchException e) {
+			list = bookDAO.list(startResult, maxResult);
+		}
+		return list;
+	}
+
+	@Override
+	public void update(Book book) {
+		bookDAO.update(book);
+	}
+
+	public BookDAO getBookDAO() {
+		return bookDAO;
+	}
+
+	public void setBookDAO(BookDAO bookDAO) {
+		this.bookDAO = bookDAO;
+	}
+
+	public CopyDAO getCopyDAO() {
+		return copyDAO;
+	}
+
+	public void setCopyDAO(CopyDAO copyDAO) {
+		this.copyDAO = copyDAO;
+	}
+
+}

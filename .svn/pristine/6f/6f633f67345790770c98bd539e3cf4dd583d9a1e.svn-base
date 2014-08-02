@@ -1,0 +1,78 @@
+package com.libmis.dao.impl;
+
+import java.io.Serializable;
+import java.util.List;
+
+import org.apache.commons.lang.ArrayUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.libmis.dao.BookDAO;
+import com.libmis.model.Book;
+import com.libmis.util.MyHibernateTemplate;
+
+@Component("bookDAO")
+public class BookDAOImpl implements BookDAO{
+	
+	@Autowired
+	private MyHibernateTemplate hibernateTemplate;
+
+	public MyHibernateTemplate getHibernateTemplate() {
+		return hibernateTemplate;
+	}
+
+	public void setHibernateTemplate(MyHibernateTemplate hibernateTemplate) {
+		this.hibernateTemplate = hibernateTemplate;
+	}
+
+	@Override
+	public void delete(Book book) {
+		this.hibernateTemplate.delete(book);
+	}
+
+	@Override
+	public Book getById(int id) {
+		return this.hibernateTemplate.load(Book.class,id);
+	}
+
+	@Override
+	public int getResultSize() {
+		return this.hibernateTemplate.getResultSize("select count(*) from Book");
+	}
+
+	@Override
+	public int getSearchResultSize(String query, String... fields) {
+		if (!ArrayUtils.isEmpty(fields)) {
+			return this.hibernateTemplate.getSearchResultSize(Book.class, query, fields);
+		}
+		return this.hibernateTemplate.getSearchResultSize(Book.class,query,"name","category","language","author","translator","publisher","pubtime","isbn","remark");
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Book> list(int startResult, int maxResult) {
+		return this.hibernateTemplate.find("from Book",startResult,maxResult);
+	}
+
+	@Override
+	public Serializable save(Book book) {
+		return this.hibernateTemplate.save(book);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Book> search(String query, int startResult, int maxResult,
+			String... fields) {
+		if (!ArrayUtils.isEmpty(fields)) {
+			return this.hibernateTemplate.highLightSearch(Book.class,query , startResult, maxResult, fields);
+		}
+		return this.hibernateTemplate.highLightSearch(Book.class, query, startResult, maxResult,"name","category","language","author","translator","publisher","pubtime","isbn","remark");
+	}
+
+	@Override
+	public void update(Book book) {
+		this.hibernateTemplate.update(book);
+	}
+
+
+}

@@ -1,0 +1,149 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.1.xsd
+           ">
+
+
+  	<http pattern="/css/**" security="none"/>
+  	<http pattern="/*.css" security="none"/>
+	<http pattern="/images/**" security="none"/>
+	<http pattern="/js/**" security="none"/>
+	<http pattern="/swf/**" security="none"/>
+	
+	<http entry-point-ref="loginUrlEntryPoint">
+		<intercept-url pattern="/admin/login**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		
+		<intercept-url pattern="/admin/bookSearch**" access="ROLE_BOOK.READ" />
+		<intercept-url pattern="/admin/bookInfo**" access="ROLE_BOOK.READ" />
+		<intercept-url pattern="/admin/bookAdd**" access="ROLE_BOOK.ADD" />
+		<intercept-url pattern="/admin/bookDelete**" access="ROLE_BOOK.DELETE" />
+		<intercept-url pattern="/admin/bookEdit**" access="ROLE_BOOK.UPDATE" />
+		
+		<intercept-url pattern="/admin/copyAdd**" access="ROLE_COPY.ADD" />
+		<intercept-url pattern="/admin/copyDelete**" access="ROLE_COPY.DELETE" />
+		<intercept-url pattern="/admin/copyEdit**" access="ROLE_COPY.UPDATE" />
+		
+		<intercept-url pattern="/admin/borrow**" access="ROLE_BORROW" />
+		<intercept-url pattern="/admin/return**" access="ROLE_RETURN" />
+		<intercept-url pattern="/admin/lose**" access="ROLE_LOSE" />
+		<intercept-url pattern="/admin/faultAdd**" access="ROLE_FAULT.ADD" />
+		
+		<intercept-url pattern="/admin/searchList**" access="ROLE_SEARCH.READ" />
+		<intercept-url pattern="/admin/faultList**" access="ROLE_FAULT.READ" />
+		
+		<intercept-url pattern="/admin/userSearch**" access="ROLE_USER.READ" />
+		<intercept-url pattern="/admin/userInfo**" access="ROLE_USER.READ" />
+		<intercept-url pattern="/admin/userAdd**" access="ROLE_USER.ADD" />
+		<intercept-url pattern="/admin/userDelete**" access="ROLE_USER.DELETE" />
+		<intercept-url pattern="/admin/userEdit**" access="ROLE_USER.UPDATE" />
+		
+		<intercept-url pattern="/admin/roleList**" access="ROLE_ROLE.READ" />
+		<intercept-url pattern="/admin/roleInfo**" access="ROLE_ROLE.READ" />
+		<intercept-url pattern="/admin/roleAdd**" access="ROLE_ROLE.ADD" />
+		<intercept-url pattern="/admin/roleDelete**" access="ROLE_ROLE.DELETE" />
+		<intercept-url pattern="/admin/roleEdit**" access="ROLE_ROLE.UPDATE" />
+		
+		<intercept-url pattern="/admin/**" access="ROLE_ADMIN" />
+		<intercept-url pattern="/admin**" access="ROLE_ADMIN" />
+		
+		<intercept-url pattern="/login**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+
+		<intercept-url pattern="/*.html" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/registry**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/book**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/**" access="ROLE_USER" />
+		
+		<!-- 登录过滤器 -->
+        <custom-filter before="FORM_LOGIN_FILTER" ref="loginFilter"/>
+        <custom-filter position="FORM_LOGIN_FILTER" ref="adminLoginFilter"/>
+
+        <!-- 注销过滤器 -->
+        <custom-filter before="LOGOUT_FILTER" ref="logoutFilter"/>
+        <custom-filter position="LOGOUT_FILTER" ref="adminLogoutFilter"/>
+        
+	</http>
+
+
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref="myUserDetailsService" />
+	</authentication-manager>
+
+	<beans:bean id="myUserDetailsService"
+		class="com.libmis.util.MyUserDetailsService"></beans:bean>
+		
+	<beans:bean id="loginUrlEntryPoint"
+		class="com.libmis.util.LoginUrlEntryPoint"></beans:bean>
+
+    <!-- 验证前台用户 -->
+      <beans:bean id="loginFilter"    
+            class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+           <beans:property name="authenticationManager" ref="authenticationManager"/>
+           <beans:property name="authenticationFailureHandler" ref="failureHandler"/>
+           <beans:property name="authenticationSuccessHandler" ref="successHandler"/>
+           <beans:property name="usernameParameter" value="name"/>
+           <beans:property name="passwordParameter" value="password"/>
+           <beans:property name="filterProcessesUrl" value="/login"/>
+      </beans:bean>
+
+      <beans:bean id="failureHandler"
+             class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+            <beans:property name="defaultFailureUrl" value="/loginInput?error=true" />
+       </beans:bean>
+
+       <beans:bean id="successHandler"
+              class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler">
+             <beans:property name="alwaysUseDefaultTargetUrl" value="true"/>
+             <beans:property name="defaultTargetUrl" value="/"/>
+       </beans:bean>
+       
+       
+       <!-- 验证后台用户 -->  
+       <beans:bean id="adminLoginFilter"
+               class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+               <beans:property name="authenticationManager" ref="authenticationManager"/>
+               <beans:property name="authenticationFailureHandler" ref="adminFailureHandler"/>
+               <beans:property name="authenticationSuccessHandler" ref="adminSuccessHandler"/>
+               <beans:property name="usernameParameter" value="name"/>
+               <beans:property name="passwordParameter" value="password"/>
+               <beans:property name="filterProcessesUrl" value="/admin/login"/>
+        </beans:bean>
+
+        <beans:bean id="adminFailureHandler" 
+                class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+               <beans:property name="defaultFailureUrl" value="/admin/loginInput?error=true" />
+        </beans:bean>
+
+        <beans:bean id="adminSuccessHandler" 
+                class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler">
+                <beans:property name="alwaysUseDefaultTargetUrl" value="true"/>
+                <beans:property name="defaultTargetUrl" value="/admin/"/>
+        </beans:bean>
+
+ 	<!-- 注销过滤器，完成前台用户注销时的定向功能 -->
+    <beans:bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+        <beans:constructor-arg value="/" />
+        <beans:constructor-arg>
+            <beans:list>
+                <beans:bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler" />
+            </beans:list>
+        </beans:constructor-arg>
+        <beans:property name="filterProcessesUrl" value="/logout" />
+    </beans:bean>
+    
+    <!-- 注销过滤器，完成后台用户注销时的定向功能 -->
+    <beans:bean id="adminLogoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+        <beans:constructor-arg value="/admin/loginInput" />
+        <beans:constructor-arg>
+            <beans:list>
+                <beans:bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler" />
+            </beans:list>
+        </beans:constructor-arg>
+        <beans:property name="filterProcessesUrl" value="/admin/logout" />
+    </beans:bean>
+
+
+</beans:beans>

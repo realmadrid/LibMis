@@ -1,0 +1,115 @@
+package com.libmis.service.impl;
+
+import java.io.Serializable;
+import java.util.List;
+
+import org.apache.commons.lang.ArrayUtils;
+import org.hibernate.search.SearchException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.libmis.dao.RoleDAO;
+import com.libmis.dao.UserDAO;
+import com.libmis.model.Role;
+import com.libmis.model.User;
+import com.libmis.service.UserService;
+
+@Component("userService")
+public class UserServiceImpl implements UserService{
+	
+	@Autowired
+	private UserDAO userDAO;
+	@Autowired
+	private RoleDAO roleDAO;
+
+	@Override
+	public void delete(User user) {
+		user = userDAO.getById(user.getId());
+		user.getRoles().removeAll(user.getRoles());
+		userDAO.delete(user);
+	}
+
+	@Override
+	public User getById(int id) {
+		return userDAO.getById(id);
+	}
+
+	@Override
+	public int getResultSize() {
+		return userDAO.getResultSize();
+	}
+
+	@Override
+	public int getSearchResultSize(String query, String... fields) {
+		int size;
+		try {
+			size = userDAO.getSearchResultSize(query,fields);
+		} catch (SearchException e) {
+			size = userDAO.getResultSize();
+		}
+		return size;
+	}
+
+	@Override
+	public List<User> list(int startResult, int maxResult) {
+		return userDAO.list(startResult, maxResult);
+	}
+
+	@Override
+	public Serializable save(User user,String[] roleIds) {
+		if (!ArrayUtils.isEmpty(roleIds)) {
+			for (String ids : roleIds) {
+				int id = Integer.parseInt(ids);
+				Role r = roleDAO.getById(id);
+				user.getRoles().add(r);
+			}
+		}
+		return userDAO.save(user);
+	}
+
+	@Override
+	public List<User> search(String query, int startResult, int maxResult,
+			String... fields) {
+		List<User> list;
+		try {
+			list = userDAO.search(query, startResult, maxResult,fields);
+		} catch (SearchException e) {
+			list = userDAO.list(startResult, maxResult);
+		}
+		return list;
+	}
+
+	@Override
+	public void update(User user, String[] roleIds) {
+		if (!ArrayUtils.isEmpty(roleIds)) {
+			for (String ids : roleIds) {
+				int id = Integer.parseInt(ids);
+				Role r = roleDAO.getById(id);
+				user.getRoles().add(r);
+			}
+		}
+		userDAO.update(user);
+	}
+
+	public UserDAO getUserDAO() {
+		return userDAO;
+	}
+
+	public void setUserDAO(UserDAO userDAO) {
+		this.userDAO = userDAO;
+	}
+
+	public RoleDAO getRoleDAO() {
+		return roleDAO;
+	}
+
+	public void setRoleDAO(RoleDAO roleDAO) {
+		this.roleDAO = roleDAO;
+	}
+
+	@Override
+	public User getByName(String username) {
+		return userDAO.getbyUsername(username);
+	}
+
+}

@@ -1,0 +1,197 @@
+package com.libmis.service.impl;
+
+import java.io.Serializable;
+import java.util.List;
+
+import org.apache.commons.lang.ArrayUtils;
+import org.hibernate.search.SearchException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.libmis.dao.BorrowDAO;
+import com.libmis.dao.FaultDAO;
+import com.libmis.dao.RoleDAO;
+import com.libmis.dao.SearchDAO;
+import com.libmis.dao.UserDAO;
+import com.libmis.model.Borrow;
+import com.libmis.model.Fault;
+import com.libmis.model.Role;
+import com.libmis.model.Search;
+import com.libmis.model.User;
+import com.libmis.service.UserService;
+
+@Component("userService")
+public class UserServiceImpl implements UserService{
+	
+	@Autowired
+	private UserDAO userDAO;
+	@Autowired
+	private RoleDAO roleDAO;
+	@Autowired
+	private BorrowDAO borrowDAO;
+	@Autowired
+	private FaultDAO faultDAO;
+	@Autowired
+	private SearchDAO searchDAO;
+
+	@Override
+	public void delete(User user) {
+		user = userDAO.getById(user.getId());
+		user.getRoles().removeAll(user.getRoles());
+		
+		List<Borrow> borrows=borrowDAO.listByUserId(user.getId());
+		for(Borrow b:borrows){
+			b.setUser(null);
+			borrowDAO.update(b);
+		}
+		List<Fault> faults=faultDAO.listByUserId(user.getId());
+		for(Fault b:faults){
+			b.setUser(null);
+			faultDAO.update(b);
+		}
+		List<Search> searchs=searchDAO.listByUserId(user.getId());
+		for(Search b:searchs){
+			b.setUser(null);
+			searchDAO.update(b);
+		}
+		userDAO.delete(user);
+	}
+
+	@Override
+	public User getById(int id) {
+		return userDAO.getById(id);
+	}
+
+	@Override
+	public int getResultSize() {
+		return userDAO.getResultSize();
+	}
+
+	@Override
+	public int getSearchResultSize(String query, String... fields) {
+		int size;
+		try {
+			size = userDAO.getSearchResultSize(query,fields);
+		} catch (SearchException e) {
+			size = userDAO.getResultSize();
+		}
+		return size;
+	}
+
+	@Override
+	public List<User> list(int startResult, int maxResult) {
+		return userDAO.list(startResult, maxResult);
+	}
+
+	@Override
+	public Serializable save(User user,String[] roleIds) {
+		if(userDAO.getbyUsername(user.getUsername())!=null)
+			return 0;
+		if(userDAO.getbyIdnumber(user.getIdnumber())!=null)
+			return 0;
+		if (!ArrayUtils.isEmpty(roleIds)) {
+			for (String ids : roleIds) {
+				int id = Integer.parseInt(ids);
+				Role r = roleDAO.getById(id);
+				user.getRoles().add(r);
+			}
+		}
+		user.setLimitNumber(8);
+		return userDAO.save(user);
+	}
+
+	@Override
+	public List<User> search(String query, int startResult, int maxResult,
+			String... fields) {
+		List<User> list;
+		try {
+			list = userDAO.search(query, startResult, maxResult,fields);
+		} catch (SearchException e) {
+			list = userDAO.list(startResult, maxResult);
+		}
+		return list;
+	}
+
+	@Override
+	public void update(User user, String[] roleIds) {
+		if (!ArrayUtils.isEmpty(roleIds)) {
+			for (String ids : roleIds) {
+				int id = Integer.parseInt(ids);
+				Role r = roleDAO.getById(id);
+				user.getRoles().add(r);
+			}
+		}
+		userDAO.update(user);
+	}
+
+	public UserDAO getUserDAO() {
+		return userDAO;
+	}
+
+	public void setUserDAO(UserDAO userDAO) {
+		this.userDAO = userDAO;
+	}
+
+	public RoleDAO getRoleDAO() {
+		return roleDAO;
+	}
+
+	public void setRoleDAO(RoleDAO roleDAO) {
+		this.roleDAO = roleDAO;
+	}
+
+	@Override
+	public User getByName(String username) {
+		return userDAO.getbyUsername(username);
+	}
+
+	@Override
+	public boolean changePassword(String username, String oldPassword, String newPassword) {
+		User user = userDAO.getbyUsername(username);
+		if(user.getPassword().equals(oldPassword)){
+			user.setPassword(newPassword);
+			userDAO.update(user);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean updateUserInfo(User user) {
+		try {
+			User u = userDAO.getbyUsername(user.getUsername());
+			u.setCellphone(user.getCellphone());
+			u.setEmail(user.getEmail());
+			u.setAddress(user.getAddress());
+			userDAO.update(u);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public BorrowDAO getBorrowDAO() {
+		return borrowDAO;
+	}
+
+	public void setBorrowDAO(BorrowDAO borrowDAO) {
+		this.borrowDAO = borrowDAO;
+	}
+
+	public FaultDAO getFaultDAO() {
+		return faultDAO;
+	}
+
+	public void setFaultDAO(FaultDAO faultDAO) {
+		this.faultDAO = faultDAO;
+	}
+
+	public SearchDAO getSearchDAO() {
+		return searchDAO;
+	}
+
+	public void setSearchDAO(SearchDAO searchDAO) {
+		this.searchDAO = searchDAO;
+	}
+
+}

@@ -1,0 +1,19 @@
+package com.libmis.dao;
+
+import java.io.Serializable;
+
+import com.libmis.model.Copy;
+
+public interface CopyDAO {
+	
+	Serializable save(Copy copy);
+	
+	void delete(Copy copy);
+	
+	void update(Copy copy);
+			
+	Copy getById(int id);
+
+	Copy getByBarcode(String barcode);
+	
+}

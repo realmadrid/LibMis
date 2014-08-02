@@ -1,0 +1,47 @@
+package com.libmis.action.front;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import com.libmis.model.Book;
+import com.libmis.model.Borrow;
+import com.libmis.service.BorrowService;
+import com.libmis.util.Page;
+import com.libmis.util.SpringSecurityUtils;
+import com.opensymphony.xwork2.ActionSupport;
+
+@Component("renew")
+@Scope("prototype")
+public class RenewAction extends ActionSupport {
+	
+	private Borrow borrow;
+	
+	@Autowired
+	private BorrowService borrowService;
+
+	@Override
+	public String execute() throws Exception {
+		if(!borrowService.renew(borrow))
+			return ERROR;
+		return SUCCESS;
+	}
+
+	public Borrow getBorrow() {
+		return borrow;
+	}
+
+	public void setBorrow(Borrow borrow) {
+		this.borrow = borrow;
+	}
+
+	public BorrowService getBorrowService() {
+		return borrowService;
+	}
+
+	public void setBorrowService(BorrowService borrowService) {
+		this.borrowService = borrowService;
+	}
+}

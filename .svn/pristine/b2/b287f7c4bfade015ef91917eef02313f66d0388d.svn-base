@@ -1,0 +1,33 @@
+package com.libmis.action.front;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import com.libmis.model.User;
+import com.libmis.util.SpringSecurityUtils;
+import com.opensymphony.xwork2.ActionSupport;
+
+@Component("userCenter")
+@Scope("prototype")
+public class UserCenterAction extends ActionSupport{
+	
+	private User user;
+	
+	@Override
+	public String execute() throws Exception {
+		user = new User();
+		user.setUsername(SpringSecurityUtils.getCurrentUserName());
+		return SUCCESS;
+	}
+
+
+	public User getUser() {
+		return user;
+	}
+
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+}

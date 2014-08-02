@@ -1,0 +1,29 @@
+package com.libmis.service;
+
+import java.io.Serializable;
+import java.util.List;
+
+import com.libmis.model.User;
+
+public interface UserService {
+	
+	Serializable save(User user, String[] roleIds);
+	
+	void delete(User user);
+	
+	void update(User user, String[] roleIds);
+	
+	List<User> list(int startResult,int maxResult);
+	
+	List<User> search(String query,int startResult,int maxResult,String... fields);
+	
+	User getById(int id);
+	
+	int getResultSize();
+	
+	int getSearchResultSize(String query,String... fields);
+
+	User getByName(String username);
+	
+	boolean changePassword(String username, String oldPassword, String newPassword);
+}

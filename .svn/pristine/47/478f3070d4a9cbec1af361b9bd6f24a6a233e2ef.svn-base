@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="admin" namespace="/admin" extends="struts-default">
+
+		<action name="">
+			<result>/WEB-INF/views/admin/index.jsp</result>
+		</action>
+		
+		<action name="loginInput">
+			<result>/WEB-INF/views/admin/login.jsp</result>
+		</action>
+		
+		<action name="left">
+			<result>/WEB-INF/views/admin/left.jsp</result>
+		</action>
+		
+		<action name="main">
+			<result>/WEB-INF/views/admin/welcome.jsp</result>
+		</action>
+		
+	</package>
+	
+	<package name="admin-book" namespace="/admin" extends="struts-default">
+	
+		<action name="bookAddInput">
+			<result>/WEB-INF/views/admin/bookAdd.jsp</result>
+		</action>
+		
+		<action name="bookAdd" class="bookAdd">
+			<result>/WEB-INF/views/admin/bookAdd.jsp?success=true</result>
+			<result name="error">/WEB-INF/views/admin/bookAdd.jsp?success=false</result>
+		</action>
+		
+		<action name="bookSearch" class="bookSearch">
+			<result>/WEB-INF/views/admin/bookList.jsp</result>
+		</action>
+		
+		<action name="bookInfo" class="bookInfo">
+			<result>/WEB-INF/views/admin/bookInfo.jsp</result>
+		</action>
+		
+		<action name="bookEdit" class="bookEdit">
+			<result type="redirectAction">bookInfo?book.id=${book.id}&amp;success=true</result>
+		</action>
+		
+		<action name="bookEditInput" class="bookInfo">
+			<result>/WEB-INF/views/admin/bookEdit.jsp</result>
+		</action>
+		
+		<action name="bookDelete" class="bookDelete">
+			<result type="redirectAction">bookSearch</result>
+		</action>
+		
+		<action name="bookInfo" class="bookInfo">
+			<result>/WEB-INF/views/admin/bookInfo.jsp</result>
+		</action>
+		
+		<action name="copyAddInput">
+			<result>/WEB-INF/views/admin/copyAdd.jsp</result>
+		</action>
+		
+		<action name="copyAdd" class="copyAdd">
+			<result>/WEB-INF/views/admin/copyAdd.jsp?success=true</result>
+			<result name="error">/WEB-INF/views/admin/copyAdd.jsp?success=false</result>
+		</action>
+		
+		<action name="copyEdit" class="copyEdit">
+			<result type="redirectAction">bookInfo?book.id=${bookId}&amp;success=true</result>
+		</action>
+		
+		<action name="copyDelete" class="copyDelete">
+			<result>/WEB-INF/views/admin/bookList.jsp</result>
+		</action>
+	
+	</package>
+	
+	<package name="admin-borrow" namespace="/admin" extends="struts-default">
+	
+		<action name="borrowInput">
+			<result>/WEB-INF/views/admin/borrow.jsp</result>
+		</action>
+	
+		<action name="borrow" class="borrow">
+			<result>/WEB-INF/views/admin/borrow.jsp?success=true</result>
+			<result name="error">/WEB-INF/views/admin/borrow.jsp?success=false</result>
+		</action>
+		
+		<action name="returnInput">
+			<result>/WEB-INF/views/admin/return.jsp</result>
+		</action>
+		
+		<action name="return" class="return">
+			<result>/WEB-INF/views/admin/return.jsp?success=true</result>
+			<result name="error">/WEB-INF/views/admin/return.jsp?success=false</result>
+			<result name="fault">/WEB-INF/views/admin/fault.jsp?type=${fault.type}&amp;fine=${fault.fine}&amp;barcode=${fault.copy.barcode}</result>
+		</action>
+		
+		<action name="loseInput" class="loseInput">
+			<result>/WEB-INF/views/admin/lose.jsp</result>
+		</action>
+		
+		<action name="lose" class="lose">
+			<result type="redirectAction">loseInput</result>
+		</action>
+		
+		<action name="faultAdd" class="faultAdd">
+			<result>/WEB-INF/views/admin/return.jsp?success=true</result>
+			<result name="error">/WEB-INF/views/admin/fault.jsp?type=${fault.type}&amp;fine=${fault.fine}&amp;barcode=${fault.copy.barcode}</result>
+		</action>
+		
+	</package>
+	
+	<package name="admin-user" namespace="/admin" extends="struts-default">
+	
+		<action name="userSearch" class="userSearch">
+			<result>/WEB-INF/views/admin/userList.jsp</result>
+		</action>
+		
+		<action name="userAddInput" class="userAddInput">
+			<result>/WEB-INF/views/admin/userAdd.jsp</result>
+		</action>
+		
+		<action name="userAdd" class="userAdd">
+			<result type="redirectAction">userAddInput?success=true</result>
+			<result name="error" type="redirectAction">userAddInput?success=false</result>
+		</action>
+		
+		<action name="userDelete" class="userDelete">
+			<result type="redirectAction">userSearch</result>
+		</action>
+		
+		<action name="userInfo" class="userInfo">
+			<result>/WEB-INF/views/admin/userInfo.jsp</result>
+		</action>
+		
+		<action name="userEditInput" class="userEditInput">
+			<result>/WEB-INF/views/admin/userEdit.jsp</result>
+		</action>
+		
+		<action name="userEdit" class="userEdit">
+			<result type="redirectAction">userInfo?user.id=${user.id}&amp;success=true</result>
+		</action>
+		
+		
+		
+		
+	
+	
+	
+		<action name="roleList" class="roleList">
+			<result>/WEB-INF/views/admin/roleList.jsp</result>
+		</action>
+		
+		<action name="roleAddInput" class="roleAddInput">
+			<result>/WEB-INF/views/admin/roleAdd.jsp</result>
+		</action>
+		
+		<action name="roleAdd" class="roleAdd">
+			<result type="redirectAction">roleAddInput?success=true</result>
+		</action>
+		
+		<action name="roleDelete" class="roleDelete">
+			<result type="redirectAction">roleList</result>
+		</action>
+		
+		<action name="roleInfo" class="roleInfo">
+			<result>/WEB-INF/views/admin/roleInfo.jsp</result>
+		</action>
+		
+		<action name="roleEditInput" class="roleEditInput">
+			<result>/WEB-INF/views/admin/roleEdit.jsp</result>
+		</action>
+		
+		<action name="roleEdit" class="roleEdit">
+			<result type="redirectAction">roleInfo?role.id=${role.id}&amp;success=true</result>
+		</action>
+	</package>
+	
+	<package name="admin-ohter" namespace="/admin" extends="struts-default">
+		<action name="searchList" class="searchList">
+			<result>/WEB-INF/views/admin/searchList.jsp</result>
+		</action>
+		
+		<action name="faultList" class="faultList">
+			<result>/WEB-INF/views/admin/faultList.jsp</result>
+		</action>
+	</package>
+</struts>    

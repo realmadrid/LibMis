@@ -1,0 +1,199 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<base href="<%=basePath%>">
+<title>图书馆管理系统 - 检索结果</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="Place your description here" />
+<meta name="keywords" content="put, your, keyword, here" />
+<meta name="author" content="cssMoban.com - website templates provider" />
+<link href="style.css" rel="stylesheet" type="text/css" />
+<script src="js/jquery-1.4.2.min.js" type="text/javascript"></script>
+<script src="js/cufon-yui.js" type="text/javascript"></script>
+<script src="js/cufon-replace.js" type="text/javascript"></script>
+<script src="js/jcarousellite.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+	  $("a.new_window").attr("target", "_blank");
+	  //carousel
+	  $(".carousel").jCarouselLite({
+		  btnNext: ".next",
+		  btnPrev: ".prev"
+	  });
+	});
+</script>
+<!--[if lt IE 7]>
+<script type="text/javascript" src="js/ie_png.js"></script>
+<script type="text/javascript">
+	ie_png.fix('.png, .carousel-box .next img, .carousel-box .prev img');
+</script>
+<link href="ie6.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+</head>
+<body id="page2">
+<div class="tail-top-left"></div>
+<div class="tail-top">
+<!-- header -->
+	<div id="header">
+		<div class="row-1">
+			<div class="fleft"><a href="index.html"><img src="images/logo.gif" alt="" /></a></div>
+			<div class="fright">
+				<ul>
+					<li><a href="index.html" class="active">首页</a></li>
+					<li><a href="bookquery.html">书刊检索</a></li>
+					<li><a href="articles.html">特别专题</a></li>
+					<li><a href="contact-us.html">联系我们</a></li>
+					<li><a href="userCenter">个人中心</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="row-2"><span><b><img src="images/slogan.gif" alt="" /></b><a href="#"><img src="images/button.gif" alt="" /></a></span></div>
+	</div>
+<!-- content -->
+	<div id="content">
+		<div class="row-1">
+			<div class="inside">
+				<div class="container">
+					<div class="aside">
+						<h3>读者服务</h3>
+						<ul>
+							<li>
+								<img src="images/pic1.gif" alt="" /><div class="extra-wrap"><span>Consultation</span>Sed ut perspiciatis unde<a href="#">...</a></div>
+							</li>
+							<li>
+								<img src="images/pic2.gif" alt="" /><div class="extra-wrap"><span>Business Planning</span>Iste natus error sit voluptatem<a href="#">...</a></div>
+							</li>
+							<li>
+								<img src="images/pic3.gif" alt="" /><div class="extra-wrap"><span>Target Marketing</span>Accusantium dolmque ldan<a href="#">...</a></div>
+							</li>
+							<li>
+								<img src="images/pic4.gif" alt="" /><div class="extra-wrap"><span>Market Research</span>Tium totam rem aperiam eaque<a href="#">...</a></div>
+							</li>
+							<li>
+								<img src="images/pic5.gif" alt="" /><div class="extra-wrap"><span>Quick Business Help</span>Ipsa quae ab illo inventore<a href="#">...</a></div>
+							</li>
+						</ul>
+						<div class="wrapper"><a href="#" class="link1"><em><b>更多服务..</b></em></a></div>
+					</div>
+					<div class="content"><div class="inner_copy">More <a href="http://www.cssmoban.com/">Website Templates</a> at TemplateMonster.com!</div>
+						<h3>在线书刊检索结果</h3>
+						
+						<s:iterator value="books" var="b">
+							<h4><a href="bookInfo?book.id=<s:property value="#b.id" />"><s:property value="#b.name" escapeHtml="false" /></a></h4><br/>
+							<s:property value="#b.author" escapeHtml="false" /><br/>
+							<s:property value="#b.publisher" escapeHtml="false" /><br/>
+							馆藏复本：<s:property value="#b.copys.size" escapeHtml="false" /><br/>
+							<hr size=2 style="color: green;border-style:dashed ;width:100%"><br/><br/>
+						</s:iterator>
+						
+						<div align="right">
+							<a href="bookSearch?page.pageNo=<s:property value="page.prePage"/>&page.pageSize=<s:property value="page.pageSize"/>&query=<s:property value="query" />">上一页</a>
+							<b><font color=red><s:property value="page.pageNo" /></font> / <font color=black><s:property value="page.totalPages" /></font></b>
+							<a href="bookSearch?page.pageNo=<s:property value="page.nextPage"/>&page.pageSize=<s:property value="page.pageSize"/>&query=<s:property value="query" />">下一页</a>					
+						</div>		 						 				
+					</div>
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+		<div class="tail-middle">
+			<div class="row-2">
+				<div class="inside">
+					<h3>About Your Team</h3>
+					<div class="carousel-box">
+						<div class="prev"><a href="#"><img src="images/prev.png" alt="" /></a></div>
+						<div class="next"><a href="#"><img src="images/next.png" alt="" /></a></div>
+						<div class="carousel">
+							<ul>
+								<li>
+									<div class="box">
+										<div class="border-top">
+											<div class="border-bot">
+												<div class="left-top-corner">
+													<div class="right-top-corner">
+														<div class="right-bot-corner">
+															<div class="left-bot-corner">
+																<div class="img-box2"><img src="images/slide-img4.jpg" alt="" />
+																	<div class="inner">
+																		<h4>Team Member One</h4>
+																		<p>He is the most important member of your team. Usually this is the person who started the website. Maybe it is worth to write why he has made such a decision and what has inspired him.</p>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="box">
+										<div class="border-top">
+											<div class="border-bot">
+												<div class="left-top-corner">
+													<div class="right-top-corner">
+														<div class="right-bot-corner">
+															<div class="left-bot-corner">
+																<div class="inner">
+																	<div class="img-box2 extra"><img src="images/slide-img5.jpg" alt="" />
+																		<div class="inner">
+																			<h4>Another Team Member</h4>
+																			<p class="extra">We are completly lost on what he's responsible for, but we hope that you know it ;) We also hope that you will tell it to the rest of the world including us by placing some real text here.</p>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="box">
+										<div class="border-top">
+											<div class="border-bot">
+												<div class="left-top-corner">
+													<div class="right-top-corner">
+														<div class="right-bot-corner">
+															<div class="left-bot-corner">
+																<div class="inner">
+																	<div class="img-box2"><img src="images/slide-img6.jpg" alt="" />
+																		<div class="inner">
+																			<h4>Another Team Member</h4>
+																			<p>We are completly lost on what he's responsible for, but we hope that you know it ;) We also hope that you will tell it to the rest of the world including us by placing some real text here.</p>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- footer -->
+	<div id="footer">
+		<div class="footer">Copyright - 608宿舍<br />
+		</div>
+	</div>
+</div>
+<script type="text/javascript"> Cufon.now(); </script>
+</body>
+</html>

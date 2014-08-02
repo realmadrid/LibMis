@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="admin" namespace="/admin" extends="struts-default">
+
+		<action name="">
+			<result>/WEB-INF/views/admin/index.jsp</result>
+		</action>
+		
+		<action name="loginInput">
+			<result>/WEB-INF/views/admin/login.jsp</result>
+		</action>
+		
+		<action name="left">
+			<result>/WEB-INF/views/admin/left.jsp</result>
+		</action>
+		
+		<action name="main">
+			<result>/WEB-INF/views/admin/right.jsp</result>
+		</action>
+		
+		<action name="bookSearch" class="bookSearch">
+			<result>/WEB-INF/views/admin/bookList.jsp</result>
+		</action>
+
+	</package>
+	
+	<package name="admin-borrow" namespace="/admin" extends="struts-default">
+	
+		<action name="borrowInput">
+			<result>/WEB-INF/views/admin/borrow.jsp</result>
+		</action>
+	
+		<action name="borrow" class="borrow">
+			<result>/WEB-INF/views/admin/borrow.jsp?success=true</result>
+			<result name="error">/WEB-INF/views/admin/borrow.jsp?success=false</result>
+		</action>
+		
+	</package>
+</struts>    

@@ -1,0 +1,101 @@
+package com.libmis.model;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
+
+@Entity
+@Indexed
+public class Copy {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
+	
+	//条码号
+	@Field(index=Index.TOKENIZED,store=Store.NO)
+	private String barcode;
+	
+	//所在书架
+	@Field(index=Index.TOKENIZED,store=Store.NO)
+	private String  bookshelf;
+	
+	//入库时间
+	@Field(index=Index.TOKENIZED,store=Store.NO)
+	private String entertime;
+	
+	//出库时间
+	@Field(index=Index.TOKENIZED,store=Store.NO)
+	private String outtime;
+	
+	//图书状况
+	@Field(index=Index.TOKENIZED,store=Store.NO)
+	private String condition;
+	
+	//是否注销
+	@Field(index=Index.TOKENIZED,store=Store.NO)
+	private boolean logoff;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getBarcode() {
+		return barcode;
+	}
+
+	public void setBarcode(String barcode) {
+		this.barcode = barcode;
+	}
+
+	public String getBookshelf() {
+		return bookshelf;
+	}
+
+	public void setBookshelf(String bookshelf) {
+		this.bookshelf = bookshelf;
+	}
+
+	public String getCondition() {
+		return condition;
+	}
+
+	public void setCondition(String condition) {
+		this.condition = condition;
+	}
+
+	public boolean getLogoff() {
+		return logoff;
+	}
+
+	public void setLogoff(boolean logoff) {
+		this.logoff = logoff;
+	}
+
+	public String getEntertime() {
+		return entertime;
+	}
+
+	public void setEntertime(String entertime) {
+		this.entertime = entertime;
+	}
+
+	public String getOuttime() {
+		return outtime;
+	}
+
+	public void setOuttime(String outtime) {
+		this.outtime = outtime;
+	}
+	
+}

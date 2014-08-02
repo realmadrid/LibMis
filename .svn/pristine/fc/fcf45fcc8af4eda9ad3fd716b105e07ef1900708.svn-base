@@ -1,0 +1,115 @@
+package com.libmis.action.front;
+
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.libmis.model.Book;
+import com.libmis.model.Search;
+import com.libmis.model.User;
+import com.libmis.service.BookService;
+import com.libmis.service.SearchService;
+import com.libmis.service.UserService;
+import com.libmis.util.Page;
+import com.libmis.util.SpringSecurityUtils;
+import com.opensymphony.xwork2.ActionSupport;
+
+public class SearchAction extends ActionSupport {
+
+	// private String docType;
+
+	private String searchType;
+
+	private String inputText;
+
+	private Page page;
+	
+	private List<Book> books;
+
+	@Autowired
+	private BookService bookService;
+	@Autowired
+	private SearchService searchService;
+	@Autowired
+	private UserService userService;
+
+	@Override
+	public String execute() throws Exception {
+		if (searchType.equals("all")) {
+			books = bookService.search(inputText.trim(), page.getStart(), page.getPageSize());
+		} else {
+			books = bookService.search(inputText.trim(), page.getStart(), page.getPageSize(), searchType);
+		}
+		
+		
+		
+		User user=userService.getByName(SpringSecurityUtils.getCurrentUserName());
+		if(user!=null){
+			Search search=new Search();
+			search.setContent(inputText);
+			search.setTime(new Date(System.currentTimeMillis()));
+			search.setUser(user);
+			searchService.save(search);
+		}
+		
+		return SUCCESS;
+	}
+
+	public String getSearchType() {
+		return searchType;
+	}
+
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
+	}
+
+	public String getInputText() {
+		return inputText;
+	}
+
+	public void setInputText(String inputText) {
+		this.inputText = inputText;
+	}
+
+	public Page getPage() {
+		return page;
+	}
+
+	public void setPage(Page page) {
+		this.page = page;
+	}
+
+	public List<Book> getBooks() {
+		return books;
+	}
+
+	public void setBooks(List<Book> books) {
+		this.books = books;
+	}
+
+	public BookService getBookService() {
+		return bookService;
+	}
+
+	public void setBookService(BookService bookService) {
+		this.bookService = bookService;
+	}
+
+	public SearchService getSearchService() {
+		return searchService;
+	}
+
+	public void setSearchService(SearchService searchService) {
+		this.searchService = searchService;
+	}
+
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+
+}

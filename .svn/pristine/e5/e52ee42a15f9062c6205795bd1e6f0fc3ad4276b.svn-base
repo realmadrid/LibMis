@@ -1,0 +1,178 @@
+package com.libmis.model;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+@Entity
+public class User {
+	
+	@Id
+	@GeneratedValue
+	private int id;
+	
+	private String username;
+	
+	private String password;
+	
+	private String realname;
+	
+	//身份证号
+	private String idnumber;
+	
+	private String sex;
+	
+	private String cellphone;
+	
+	private String email;
+	
+	private String address;
+	
+	//借书信息
+	@OneToMany
+	@JoinColumn(name = "user_id")
+	private Set<Borrow> borrowInfo = new HashSet<Borrow>();
+	
+	//还书信息
+	@OneToMany
+	@JoinColumn(name = "user_id")
+	private Set<Return> returnInfo = new HashSet<Return>();
+	
+	@ManyToMany
+	private Set<Role> roles = new HashSet<Role>();
+	
+	//可借阅上限
+	private int limit;
+	
+	//已借阅数
+	private int borrowed;
+
+	private String remark;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getRealname() {
+		return realname;
+	}
+
+	public void setRealname(String realname) {
+		this.realname = realname;
+	}
+
+	public String getIdnumber() {
+		return idnumber;
+	}
+
+	public void setIdnumber(String idnumber) {
+		this.idnumber = idnumber;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public String getCellphone() {
+		return cellphone;
+	}
+
+	public void setCellphone(String cellphone) {
+		this.cellphone = cellphone;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public Set<Borrow> getBorrowInfo() {
+		return borrowInfo;
+	}
+
+	public void setBorrowInfo(Set<Borrow> borrowInfo) {
+		this.borrowInfo = borrowInfo;
+	}
+
+	public Set<Return> getReturnInfo() {
+		return returnInfo;
+	}
+
+	public void setReturnInfo(Set<Return> returnInfo) {
+		this.returnInfo = returnInfo;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	public int getLimit() {
+		return limit;
+	}
+
+	public void setLimit(int limit) {
+		this.limit = limit;
+	}
+
+	public int getBorrowed() {
+		return borrowed;
+	}
+
+	public void setBorrowed(int borrowed) {
+		this.borrowed = borrowed;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	
+}

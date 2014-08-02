@@ -1,0 +1,154 @@
+package com.libmis.model;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.Store;
+
+@Entity
+@Indexed
+public class Book {
+	
+	@Id
+	@GeneratedValue
+	private int id;
+	
+	@Field(index=Index.TOKENIZED,store=Store.NO)
+	private String name;
+	
+	@Field(index=Index.TOKENIZED,store=Store.NO)
+	private String category;
+	
+	@Field(index=Index.TOKENIZED,store=Store.NO)
+	private String language;
+	
+	@Field(index=Index.TOKENIZED,store=Store.NO)
+	private String author;
+	
+	@Field(index=Index.TOKENIZED,store=Store.NO)
+	private String translator;
+	
+	@Field(index=Index.TOKENIZED,store=Store.NO)
+	private String publisher;
+	
+	@Field(index=Index.TOKENIZED,store=Store.NO)
+	private String pubtime;
+	
+	@Field(index=Index.TOKENIZED,store=Store.NO)
+	private String isbn;
+	
+	@Field(index=Index.TOKENIZED,store=Store.NO)
+	private double price;
+
+	@Field(index=Index.TOKENIZED,store=Store.NO)
+	private String remark;
+	
+	@OneToMany(mappedBy = "book")
+	@IndexedEmbedded
+	private Set<Copy> copys = new HashSet<Copy>();
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	public String getTranslator() {
+		return translator;
+	}
+
+	public void setTranslator(String translator) {
+		this.translator = translator;
+	}
+
+	public String getPublisher() {
+		return publisher;
+	}
+
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
+	}
+
+	public String getIsbn() {
+		return isbn;
+	}
+
+	public void setIsbn(String isbn) {
+		this.isbn = isbn;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public Set<Copy> getCopys() {
+		return copys;
+	}
+
+	public void setCopys(Set<Copy> copys) {
+		this.copys = copys;
+	}
+
+	public String getPubtime() {
+		return pubtime;
+	}
+
+	public void setPubtime(String pubtime) {
+		this.pubtime = pubtime;
+	}
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+
+	<include file="com/wisecampus/action/admin/role/admin-role.xml"></include>
+	<include file="com/wisecampus/action/admin/user/admin-user.xml"></include>
+	<include file="com/wisecampus/action/admin/classroom/admin-classroom.xml"></include>
+	<include file="com/wisecampus/action/admin/aircondition/admin-aircondition.xml"></include>
+	<include file="com/wisecampus/action/admin/building/admin-building.xml"></include>
+	<include file="com/wisecampus/action/admin/course/admin-course.xml"></include>
+	<include file="com/wisecampus/action/admin/fountain/admin-fountain.xml"></include>
+	<include file="com/wisecampus/action/admin/multimedia/admin-multimedia.xml"></include>
+	<include file="com/wisecampus/action/admin/parking/admin-parking.xml"></include>
+	<include file="com/wisecampus/action/admin/wc/admin-wc.xml"></include>
+
+
+	<package name="admin" namespace="/admin" extends="struts-default">
+
+		<action name="">
+			<result>/WEB-INF/views/admin/index.jsp</result>
+		</action>
+
+		<action name="classroom">
+			<result>/WEB-INF/views/admin/classroomIndex.jsp</result>
+		</action>
+
+	</package>
+</struts>    

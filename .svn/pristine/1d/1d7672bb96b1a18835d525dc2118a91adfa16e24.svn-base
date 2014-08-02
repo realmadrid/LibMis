@@ -1,0 +1,76 @@
+package com.libmis.model;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.Store;
+
+@Entity
+@Indexed
+public class Fault {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
+	
+	@ManyToOne
+	@IndexedEmbedded
+	private User user;//违章用户
+	
+	@ManyToOne
+	@IndexedEmbedded
+	private Copy copy;
+	
+	@Field(index=Index.TOKENIZED,store=Store.NO)
+	private String type;//违章类型
+	
+	@Field(index=Index.TOKENIZED,store=Store.NO)
+	private double fine;//罚款
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Copy getCopy() {
+		return copy;
+	}
+
+	public void setCopy(Copy copy) {
+		this.copy = copy;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public double getFine() {
+		return fine;
+	}
+
+	public void setFine(double fine) {
+		this.fine = fine;
+	}
+}

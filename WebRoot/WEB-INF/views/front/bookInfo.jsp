@@ -1,0 +1,283 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<base href="<%=basePath%>">
+		<title>图书馆管理系统 - 图书信息</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="description" content="Place your description here" />
+		<meta name="keywords" content="put, your, keyword, here" />
+		<meta name="author"
+			content="cssMoban.com - website templates provider" />
+		<link href="style.css" rel="stylesheet" type="text/css" />
+		<script src="js/jquery-1.4.2.min.js" type="text/javascript"></script>
+		<script src="js/cufon-yui.js" type="text/javascript"></script>
+		<script src="js/cufon-replace.js" type="text/javascript"></script>
+		<script src="js/jcarousellite.js" type="text/javascript"></script>
+		<script type="text/javascript">
+	$(document).ready(function() {
+		$("a.new_window").attr("target", "_blank");
+		//carousel
+		$(".carousel").jCarouselLite({
+			btnNext : ".next",
+			btnPrev : ".prev"
+		});
+	});
+</script>
+		<!--[if lt IE 7]>
+<script type="text/javascript" src="js/ie_png.js"></script>
+<script type="text/javascript">
+	ie_png.fix('.png, .carousel-box .next img, .carousel-box .prev img');
+</script>
+<link href="ie6.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+	</head>
+	<body id="page2">
+		<div class="tail-top-left"></div>
+		<div class="tail-top">
+			<!-- header -->
+			<div id="header">
+				<div class="row-1">
+					<div class="fleft">
+						<a href="index.html"><img src="images/logo.gif" alt="" />
+						</a>
+					</div>
+					<div class="fright">
+						<ul style="font-family:微软雅黑">
+							<li>
+								<a href="index.html" class="active">首页</a>
+							</li>
+							<li>
+								<a href="bookquery.html">书刊检索</a>
+							</li>
+							<li>
+								<a href="articles.html">特别专题</a>
+							</li>
+							<li>
+								<a href="contact-us.html">联系我们</a>
+							</li>
+							<li>
+								<a href="userCenter">个人中心</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="row-2">
+					<span><b><img src="images/slogan.gif" alt="" />
+					</b><a href="#"><img src="images/button.gif" alt="" />
+					</a>
+					</span>
+				</div>
+			</div>
+			<!-- content -->
+			<div id="content">
+				<div class="row-1">
+					<div class="inside">
+						<div class="container">
+							<div class="aside">
+								<h3>
+									<s:property value="book.name" />
+								</h3>
+								<ul style="font-family:微软雅黑">
+									<li>
+										<img src="images/pic1.gif" alt="" />
+										<div class="extra-wrap">
+											<span>作者/译者</span><s:property value="book.author" />&nbsp/&nbsp<s:property value="book.translator" />
+										</div>
+									</li>
+									<li>
+										<img src="images/pic2.gif" alt="" />
+										<div class="extra-wrap">
+											<span>分类</span><s:property value="book.category" />
+										</div>
+									</li>
+									<li>
+										<img src="images/pic3.gif" alt="" />
+										<div class="extra-wrap">
+											<span>出版商</span><s:property value="book.publisher" />
+										</div>
+									</li>
+									<li>
+										<img src="images/pic4.gif" alt="" />
+										<div class="extra-wrap">
+											<span>图书语言</span><s:property value="book.language" />
+										</div>
+									</li>
+									<li>
+										<img src="images/pic5.gif" alt="" />
+										<div class="extra-wrap">
+											<span>ISBN</span><s:property value="book.isbn" />
+										</div>
+									</li>
+									<li>
+										<img src="images/pic3.gif" alt="" />
+										<div class="extra-wrap">
+											<span>图书原价</span><s:property value="book.price" />元
+										</div>
+									</li>
+								</ul>
+								<div class="wrapper">
+									<a href="#" class="link1"><em><b>更多信息..</b>
+									</em>
+									</a>
+								</div>
+							</div>
+							<div class="content">
+								<h3>
+									馆存图书副本信息
+								</h3>
+								<div style="width: 630px;">
+									<table width="630" border="0" align="center" cellpadding="2" cellspacing="1" bgcolor="#d2d2d2">
+										<tr>
+											<td align="center" bgcolor="#eeeeee" class="greytext1">条码号</td>
+											<td align="center" bgcolor="#eeeeee" class="greytext1">所在书架</td>
+											<td align="center" bgcolor="#eeeeee" class="greytext1">年卷期</td>
+											<td align="center" bgcolor="#eeeeee" class="greytext1">入馆时间</td>
+											<td align="center" bgcolor="#eeeeee" class="greytext1">书刊状态</td>
+										</tr>
+										<s:iterator value="copys" var="c">
+										<tr>
+											<td align="center" class="whitetext" width="25%" bgcolor="#FFFFFF"><s:property value="#c.barcode" /></td>
+											<td align="center" class="whitetext" width="15%" bgcolor="#FFFFFF"><s:property value="#c.bookshelf" /></td>
+											<td align="center" class="whitetext" width="15%" bgcolor="#FFFFFF"><s:property value="book.pubtime" /></td>
+											<td align="center" class="whitetext" width="25%" bgcolor="#FFFFFF"><s:date name="#c.entertime" format="yyyy-MM-dd" /></td>
+											<td align="center" class="whitetext" width="20%" bgcolor="#FFFFFF"><s:property value="#c.status" /></td>
+										</tr>
+										</s:iterator>
+									</table>
+								</div>
+								
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+				</div>
+				<div class="tail-middle">
+					<div class="row-2">
+						<div class="inside">
+							<h3>
+								系统开发团队
+							</h3>
+							<div class="carousel-box">
+								<div class="prev">
+									<a href="#"><img src="images/prev.png" alt="" />
+									</a>
+								</div>
+								<div class="next">
+									<a href="#"><img src="images/next.png" alt="" />
+									</a>
+								</div>
+								<div class="carousel">
+									<ul>
+										<li>
+											<div class="box">
+												<div class="border-top">
+													<div class="border-bot">
+														<div class="left-top-corner">
+															<div class="right-top-corner">
+																<div class="right-bot-corner">
+																	<div class="left-bot-corner">
+																		<div class="img-box2">
+																			<img src="images/slide-img1.jpg" alt="" />
+																			<div class="inner">
+																				<h4>
+																					石浩田
+																				</h4>
+																				<p>
+																					前台开发及用户体验开发。
+																				</p>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</li>
+										<li>
+											<div class="box">
+												<div class="border-top">
+													<div class="border-bot">
+														<div class="left-top-corner">
+															<div class="right-top-corner">
+																<div class="right-bot-corner">
+																	<div class="left-bot-corner">
+																		<div class="inner">
+																			<div class="img-box2 extra">
+																				<img src="images/slide-img2.jpg" alt="" />
+																				<div class="inner">
+																					<h4>
+																						孟繁隽
+																					</h4>
+																					<p class="extra">
+																						后台业务及搜索模块开发。
+																					</p>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</li>
+										<li>
+											<div class="box">
+												<div class="border-top">
+													<div class="border-bot">
+														<div class="left-top-corner">
+															<div class="right-top-corner">
+																<div class="right-bot-corner">
+																	<div class="left-bot-corner">
+																		<div class="inner">
+																			<div class="img-box2">
+																				<img src="images/slide-img3.jpg" alt="" />
+																				<div class="inner">
+																					<h4>
+																						孙燕姿
+																					</h4>
+																					<p>
+																						我最喜欢的歌手。
+																					</p>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- footer -->
+			<div id="footer">
+				<div class="footer">
+					Copyright - 608宿舍
+					<br />
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+	Cufon.now();
+</script>
+	</body>
+</html>

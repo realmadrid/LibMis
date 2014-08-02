@@ -1,0 +1,69 @@
+package com.libmis.action.front;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.libmis.model.Book;
+import com.libmis.service.BookService;
+import com.libmis.util.Page;
+import com.opensymphony.xwork2.ActionSupport;
+
+public class SearchAction extends ActionSupport {
+
+	// private String docType;
+
+	private String searchType;
+
+	private String inputText;
+
+	private Page page;
+	
+	private List<Book> books;
+
+	@Autowired
+	private BookService bookService;
+
+	@Override
+	public String execute() throws Exception {
+		if (searchType.equals("all")) {
+			books = bookService.search(inputText.trim(), page.getStart(), page.getPageSize());
+		} else {
+			books = bookService.search(inputText.trim(), page.getStart(), page.getPageSize(), searchType);
+		}
+		return SUCCESS;
+	}
+
+	public String getSearchType() {
+		return searchType;
+	}
+
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
+	}
+
+	public String getInputText() {
+		return inputText;
+	}
+
+	public void setInputText(String inputText) {
+		this.inputText = inputText;
+	}
+
+	public Page getPage() {
+		return page;
+	}
+
+	public void setPage(Page page) {
+		this.page = page;
+	}
+
+	public List<Book> getBooks() {
+		return books;
+	}
+
+	public void setBooks(List<Book> books) {
+		this.books = books;
+	}
+
+}

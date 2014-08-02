@@ -1,0 +1,22 @@
+package com.libmis.dao;
+
+import java.io.Serializable;
+import java.util.List;
+
+import com.libmis.model.Borrow;
+
+public interface BorrowDAO {
+
+	Serializable save(Borrow borrow);
+	
+	void delete(Borrow borrow);
+	
+	void update(Borrow borrow);
+	
+	List<Borrow> list(int startResult,int maxResult);
+	
+	Borrow getById(int id);
+	
+	int getResultSize();
+	
+}

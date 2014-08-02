@@ -1,0 +1,96 @@
+package com.libmis.service.impl;
+
+import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.libmis.dao.BorrowDAO;
+import com.libmis.dao.CopyDAO;
+import com.libmis.dao.UserDAO;
+import com.libmis.model.Borrow;
+import com.libmis.model.Copy;
+import com.libmis.model.User;
+import com.libmis.service.BorrowService;
+
+@Component("borrowService")
+public class BorrowServiceImpl implements BorrowService{
+	
+	@Autowired
+	private BorrowDAO borrowDAO;
+	@Autowired
+	private UserDAO userDAO;
+	@Autowired
+	private CopyDAO copyDAO;
+	
+
+	@Override
+	public void delete(Borrow borrow) {
+		borrowDAO.delete(borrow);
+	}
+
+	@Override
+	public Borrow getById(int id) {
+		return borrowDAO.getById(id);
+	}
+
+	@Override
+	public int getResultSize() {
+		return borrowDAO.getResultSize();
+	}
+
+	@Override
+	public int getResultSize(String username, boolean haveReturned) {
+		return borrowDAO.getResultSize(username, haveReturned);
+	}
+
+	@Override
+	public List<Borrow> list(int startResult, int maxResult) {
+		return borrowDAO.list(startResult, maxResult);
+	}
+
+	//此方法用来查看某用户自己当前借阅(未归还)的图书以及借阅历史(已归还)
+	@Override
+	public List<Borrow> listByUsernameAndHaveReturned(String username,
+			boolean haveReturned, int startResult, int maxResult) {
+		return borrowDAO.listByUsernameAndHaveReturned(username, haveReturned, startResult, maxResult);
+	}
+
+	@Override
+	public Serializable save(Borrow borrow) {
+		User user=userDAO.getbyUsername(borrow.getUser().getUsername());
+		if(user==null)
+			return 0;
+		borrow.setUser(user);
+		Copy copy=copyDAO.getByBarcode(borrow.getCopy().getBarcode());
+		if(copy==null)
+			return 0;
+		borrow.setCopy(copy);
+		Date borrowTime=new Date(System.currentTimeMillis());
+		borrow.setBorrowTime(borrowTime);
+		borrow.setHaveReturned(false);
+		borrow.setRenewTimes(0);
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MONTH,1);
+		Date shouldReturnTime=cal.getTime();
+		borrow.setShouldReturnTime(shouldReturnTime);
+		return borrowDAO.save(borrow);
+	}
+
+	@Override
+	public void update(Borrow borrow) {
+		borrowDAO.update(borrow);
+	}
+
+	public BorrowDAO getBorrowDAO() {
+		return borrowDAO;
+	}
+
+	public void setBorrowDAO(BorrowDAO borrowDAO) {
+		this.borrowDAO = borrowDAO;
+	}
+
+}

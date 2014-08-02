@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+    <package name="front" namespace="/" extends="struts-default">
+    	
+    	<action name="">
+			<result>/WEB-INF/views/front/index.jsp</result>
+		</action>
+		
+		<action name="admin">
+			<result>/WEB-INF/views/admin/index.jsp</result>
+		</action>
+		
+		<action name="login">
+			<result>/WEB-INF/views/front/login.jsp</result>
+		</action>
+		
+		<action name="registryInput">
+			<result>/WEB-INF/views/front/registry.jsp</result>
+		</action>
+	
+    </package>
+    
+</struts>    

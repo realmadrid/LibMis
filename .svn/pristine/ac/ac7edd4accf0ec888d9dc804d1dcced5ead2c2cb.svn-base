@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+    <package name="front" namespace="/" extends="struts-default">
+    	
+    	<action name="">
+			<result>/index.html</result>
+		</action>
+		
+		<action name="admin">
+			<result>/WEB-INF/views/admin/index.jsp</result>
+		</action>
+		
+		<action name="loginInput">
+			<result>/WEB-INF/views/front/login.jsp</result>
+		</action>
+		
+		<action name="registryInput">
+			<result>/WEB-INF/views/front/registry.jsp</result>
+		</action>
+		
+		<action name="userCenter" class="userCenter">
+			<result>/WEB-INF/views/front/userCenter.jsp</result>
+		</action>
+		
+		<action name="myBorrow" class="myBorrow">
+			<result>/WEB-INF/views/front/myBorrow.jsp</result>
+		</action>
+		
+		<action name="userInfo" class="personInfo">
+			<result>/WEB-INF/views/front/userInfo.jsp</result>
+		</action>
+		
+		<action name="historyBorrow" class="historyBorrow">
+			<result>/WEB-INF/views/front/historyBorrow.jsp</result>
+		</action>
+		
+		<action name="userFault" class="userFault">
+			<result>/WEB-INF/views/front/userFault.jsp</result>
+		</action>
+		
+		<action name="searchHistory" class="searchHistory">
+			<result>/WEB-INF/views/front/searchHistory.jsp</result>
+		</action>
+		
+		<action name="bookSearch" class="bookSearch">
+			<result>/WEB-INF/views/front/searchResult.jsp</result>
+		</action>
+		
+		<action name="bookInfo" class="bookInfo">
+			<result>/WEB-INF/views/front/bookInfo.jsp</result>
+		</action>
+		
+		<action name="renew" class="renew">
+			<result type="redirectAction">myBorrow?success=true&amp;user.username=${username}</result>
+			<result name="error" type="redirectAction">myBorrow?success=false&amp;user.username=${username}</result>
+		</action>
+		
+		<action name="editUserInfoInput">
+			<result>/WEB-INF/views/front/userInfoEdit.jsp</result>
+		</action>
+		
+		<action name="editUserInfo" class="personInfo">
+			<result>/WEB-INF/views/front/userInfoEdit.jsp</result>
+		</action>
+		
+		<action name="changePasswordInput">
+			<result>/WEB-INF/views/front/changePassword.jsp</result>
+		</action>
+		
+		<action name="changePassword" class="changePassword">
+			<result>/WEB-INF/views/front/changePassword.jsp?success=true</result>
+			<result name="input">/WEB-INF/views/front/changePassword.jsp?success=false</result>
+		</action>
+	
+    </package>
+    
+</struts>    

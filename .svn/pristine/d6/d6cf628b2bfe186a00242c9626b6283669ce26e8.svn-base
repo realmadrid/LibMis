@@ -1,0 +1,99 @@
+package com.libmis.model;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.Store;
+
+@Entity
+@Indexed
+public class Borrow {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
+	
+	@OneToOne
+	@JoinColumn(name = "user_id")
+	@IndexedEmbedded
+	private User user;
+	
+	@Field(index=Index.TOKENIZED,store=Store.NO)
+	private String borrowTime;
+	
+	@Field(index=Index.TOKENIZED,store=Store.NO)
+	private String returnTime;
+	
+	@Field(index=Index.TOKENIZED,store=Store.NO)
+	private boolean haveReturned;
+	
+	@Field(index=Index.TOKENIZED,store=Store.NO)
+	private int renewTimes;
+	
+	@Field(index=Index.TOKENIZED,store=Store.NO)
+	private String remark;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public boolean isHaveReturned() {
+		return haveReturned;
+	}
+
+	public void setHaveReturned(boolean haveReturned) {
+		this.haveReturned = haveReturned;
+	}
+
+	public int getRenewTimes() {
+		return renewTimes;
+	}
+
+	public void setRenewTimes(int renewTimes) {
+		this.renewTimes = renewTimes;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public String getBorrowTime() {
+		return borrowTime;
+	}
+
+	public void setBorrowTime(String borrowTime) {
+		this.borrowTime = borrowTime;
+	}
+
+	public String getReturnTime() {
+		return returnTime;
+	}
+
+	public void setReturnTime(String returnTime) {
+		this.returnTime = returnTime;
+	}
+}

@@ -1,0 +1,47 @@
+package com.libmis.dao.impl;
+
+import java.io.Serializable;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.libmis.dao.CopyDAO;
+import com.libmis.model.Copy;
+import com.libmis.util.MyHibernateTemplate;
+
+@Component("copyDAO")
+public class CopyDAOImpl implements CopyDAO{
+	
+	@Autowired
+	private MyHibernateTemplate hibernateTemplate;
+
+	public MyHibernateTemplate getHibernateTemplate() {
+		return hibernateTemplate;
+	}
+
+	public void setHibernateTemplate(MyHibernateTemplate hibernateTemplate) {
+		this.hibernateTemplate = hibernateTemplate;
+	}
+
+	@Override
+	public void delete(Copy copy) {
+		this.hibernateTemplate.delete(copy);
+	}
+
+	@Override
+	public Copy getById(int id) {
+		return this.hibernateTemplate.load(Copy.class, id);
+	}
+
+	@Override
+	public Serializable save(Copy copy) {
+		return this.hibernateTemplate.save(copy);
+	}
+
+	@Override
+	public void update(Copy copy) {
+		this.hibernateTemplate.update(copy);
+	}
+
+
+}

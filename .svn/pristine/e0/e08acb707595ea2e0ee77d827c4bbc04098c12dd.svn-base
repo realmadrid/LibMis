@@ -1,0 +1,30 @@
+package com.libmis.service;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.libmis.model.Book;
+
+public class BookServiceTest {
+	
+	private static ApplicationContext context;
+	private static BookService bookService;
+	
+	@BeforeClass
+	public static void beforeClass(){
+		context = new ClassPathXmlApplicationContext("applicationContext-core.xml");
+		bookService=(BookService) context.getBean("bookService");
+	}
+	
+	@Test
+	public void testAdd(){
+		for (int i = 0; i < 100; i++) {
+			Book book=new Book();
+			book.setName("书"+i);
+			bookService.save(book);
+		}
+	}
+
+}

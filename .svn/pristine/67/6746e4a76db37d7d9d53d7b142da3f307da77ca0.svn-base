@@ -1,0 +1,37 @@
+package com.libmis.action.admin;
+
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import com.libmis.model.Book;
+import com.libmis.model.Copy;
+import com.libmis.service.CopyService;
+import com.opensymphony.xwork2.ActionSupport;
+
+@Component("copyEdit")
+@Scope("prototype")
+public class CopyEditAction extends ActionSupport{
+	
+	private Set<Copy> copys;
+	
+	@Autowired
+	private CopyService copyService;
+	
+	@Override
+	public String execute() throws Exception {
+		copyService.update(copys);
+		return SUCCESS;
+	}
+
+	public Set<Copy> getCopys() {
+		return copys;
+	}
+
+	public void setCopys(Set<Copy> copys) {
+		this.copys = copys;
+	}
+
+}
